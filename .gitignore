@@ -1,0 +1,23 @@
+# Betriebssystem
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode/
+
+# Node / Build Tools
+node_modules/
+dist/
+build/
+
+# Composer / PHP
+vendor/
+*.log
+
+# WordPress-spezifisch
+wp-content/uploads/
+wp-content/cache/
+wp-config.php
+
+# Sonstiges
+.env

@@ -1,0 +1,263 @@
+/*
+ Theme Name: Altkleidersammlung Theme
+ Author: David C. Strickling
+ Description: Altkleidersammlung Theme
+ Version: 1.1.2
+ Text Domain: PulliPunkt e.V.
+
+ Bezug zu den Aufgaben (a–i):
+ a. Titel und Logo: Darstellung über Header/Theme-Support
+ b. Struktur: Header, Navigation, Content und Footer werden gestützt
+ c. Responsivität: Bootstrap-Grid und ergänzende Regeln
+ d. Formular: klare Buttons, Eingabefelder und Rückmeldungen
+ e. Übergabe an Geschäftsstelle: typografisch eindeutig
+ f. Tablet an Geschäftsstelle: gut bedienbar durch responsive Regeln
+ g. Abholung: klare Struktur für Adressfelder
+ h. Abholradius (PLZ-Prüfung): Logik im Template
+ i. Bestätigungsseite: gut lesbare Typografie und Abstände
+*/
+
+/* 0) Reset / Box-Sizing
+   Einheitliches Box-Modell. Trägt zu c. bei. */
+*, *::before, *::after { box-sizing: border-box; }
+
+/* 1) Fonts (lokal)
+   Eigene Schriftarten lokal, kein externer Dienst. Unterstützt c. */
+@font-face {
+  font-family: 'Nunito';
+  src:
+    local('Nunito Regular'),
+    local('Nunito-Regular'),
+    url('assets/fonts/Nunito-Regular.woff2') format('woff2'),
+    url('assets/fonts/Nunito-Regular.woff') format('woff');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Nunito';
+  src:
+    local('Nunito Bold'),
+    local('Nunito-Bold'),
+    url('assets/fonts/Nunito-Bold.woff2') format('woff2'),
+    url('assets/fonts/Nunito-Bold.woff') format('woff');
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Poppins';
+  src:
+    local('Poppins Light'),
+    local('Poppins-Light'),
+    url('assets/fonts/Poppins-Light.woff2') format('woff2'),
+    url('assets/fonts/Poppins-Light.woff') format('woff');
+  font-weight: 300; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Poppins';
+  src:
+    local('Poppins Regular'),
+    local('Poppins-Regular'),
+    url('assets/fonts/Poppins-Regular.woff2') format('woff2'),
+    url('assets/fonts/Poppins-Regular.woff') format('woff');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Poppins';
+  src:
+    local('Poppins Black'),
+    local('Poppins-Black'),
+    url('assets/fonts/Poppins-Black.woff2') format('woff2'),
+    url('assets/fonts/Poppins-Black.woff') format('woff');
+  font-weight: 900; font-style: normal; font-display: swap;
+}
+
+/* 2) Design-Tokens
+   Zentrale Farben, Schatten. Unterstützt b. und c. */
+:root{
+  --color-accent:       #ff951c;
+  --color-accent-light: #ffd7aa;
+  --color-accent-dark:  #c97719;
+  --color-text:   #222;
+  --color-muted:  #555;
+  --color-surface:#ffffff;
+  --radius: .75rem;
+  --shadow: 0 6px 18px rgba(0,0,0,.06);
+
+  /* Hover */
+  --accent-hover: color-mix(in srgb, var(--color-accent) 85%, black);
+  --accent-dark-hover: color-mix(in srgb, var(--color-accent-dark) 85%, black);
+}
+
+/* 3) Basis
+   Standardtypografie, Hintergrund und Linkdarstellung. Unterstützt d. */
+html{ scroll-behavior:smooth; }
+body{
+  font-family:"Nunito", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color:var(--color-text);
+  background-color:var(--color-surface);
+  line-height:1.6;
+}
+img{ max-width:100%; height:auto; display:block; }
+
+/* Links im Content-Bereich */
+.altkleider-content a{
+  color:var(--color-accent-dark);
+  text-decoration:none;
+  font-weight:600;
+}
+.altkleider-content a:hover{
+  color: var(--accent-dark-hover);
+}
+
+/* 4) Header / Navbar
+   Lesbare Navigation, klare Abstände. Erfüllt b. */
+.custom-logo{ max-height:56px; height:auto; width:auto; }
+.navbar .nav-link{
+  font-family:"Poppins", sans-serif;
+  font-size:1rem; font-weight:300; letter-spacing:.5px;
+  padding:.75rem 1.2rem;
+  color:var(--color-text);
+}
+.navbar .nav-link:hover{ color:var(--color-accent); }
+
+/* 5) Hero (Video-Banner)
+   Ansprechender Einstieg mit Video. Unterstützt b. und c. */
+.hero{
+  position: relative;
+  height: 45vh;
+  min-height: 200px;
+  overflow: hidden;
+  background-position: center;
+  background-size: cover;
+}
+.hero::before{
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(rgba(0,0,0,.25), rgba(0,0,0,.25));
+  z-index: 1;
+}
+.hero__video{
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+}
+/* Bewegungsreduktion beachten */
+@media (prefers-reduced-motion: reduce){
+  .hero__video{ display: none; }
+}
+.hero__inner{
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  height: 100%;
+  padding: 2rem;
+  text-align: center;
+}
+.hero__title{
+  font-family: 'Poppins','Nunito',sans-serif;
+  font-weight: 700;
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  color: #fff;
+  margin: 0 0 1rem;
+  text-shadow: 0 4px 12px rgba(0,0,0,.5);
+}
+.hero__subtitle{
+  display: block;
+  font-family: 'Nunito',sans-serif;
+  font-weight: 400;
+  font-size: 1.25rem;
+  margin-top: .5rem;
+  color: #ffe;
+  opacity: .9;
+}
+
+/* Ribbon
+   Schneller Zugang zu wichtigen Aktionen. Unterstützt b. */
+.ribbon{
+  background:rgba(185,121,25,.9);
+  padding:.5rem 1rem;
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  max-width:720px;
+  margin-inline:auto;
+}
+.ribbon .item{ display:grid; justify-items:center; gap:.35rem; }
+.ribbon .icon svg, .ribbon .icon img{
+  width:40px; height:auto; opacity:.9;
+  transition: opacity .2s ease;
+}
+.ribbon a{ color:#fff; text-decoration:none; }
+.ribbon a:hover .icon svg{ opacity:1; }
+.ribbon .label{ font-size:.8rem; font-weight:500; color:#fff; }
+
+/* 6) Content
+   Gut lesbare Inhalte, Überschriften dezent. Unterstützt i. */
+.altkleider-content{
+  max-width:1100px;
+  margin:2.5rem auto;
+  font-size:1.05rem;
+}
+.altkleider-content :is(h1,h2,h3,h4){
+  color:var(--color-accent-dark);
+  position:relative;
+  display:inline-block;
+  padding-bottom:.55rem;
+  font-weight:700;
+  margin-bottom:1rem;
+}
+/* Linien unter Überschriften */
+.altkleider-content :is(h1,h2,h3,h4)::after,
+.altkleider-content :is(h1,h2,h3,h4)::before{
+  content:"";
+  position:absolute; left:0; right:0;
+  height:3px; background:var(--color-accent-light); border-radius:2px;
+}
+.altkleider-content :is(h1,h2,h3,h4)::after{ bottom:0; }
+.hnaltkleiderge-content :is(h1,h2,h3,h4)::before{ bottom:-6px; }
+.altkleider-content img{
+  max-width:95%;
+  margin:1.25rem auto;
+  border-radius:.25rem;
+  box-shadow:0 2px 6px rgba(0,0,0,.08);
+}
+
+/* 7) Buttons
+   Nutzerinnen und Nutzer werden "angesprungen". Unterstützt d. */
+.wp-block-button__link,
+.wp-block-file__button{
+  background:var(--color-accent);
+  color:#fff;
+  font-weight:700;
+  border-radius:6px;
+  padding:10px 20px;
+  display:inline-block;
+  transition:background-color .25s ease;
+}
+.wp-block-button__link:hover,
+.wp-block-file__button:hover{
+  background: var(--accent-hover);
+}
+
+/* 8) Footer
+   Klarer Abschluss, Links gut erkennbar. Erfüllt b. */
+.bg-accent{ background:var(--color-accent); }
+.site-footer{ color:#fff; }
+.site-footer a{ color:#fff; text-decoration:none; font-weight:500; }
+.site-footer a:hover{ color:#f1f1f1; text-decoration:underline; }
+.border-white-25{ border-color:rgba(255,255,255,.25)!important; }
+
+/* 9) Zugänglichkeit durch Fokus
+   Deutliche Fokusmarkierungen. Trägt zu c. bei. */
+:is(.btn,.nav-link,.dropdown-item,.navbar-toggler,select,.form-select):focus-visible{
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: .5rem;
+}
+/* Kein doppelter Fokus bei Mausklick */
+:focus:not(:focus-visible){ outline:none !important; box-shadow:none !important; }
+/* Fokus auf Touch-Geräten ausblenden */
+@media (hover:none) and (pointer:coarse){
+  :is(.btn,.nav-link,.dropdown-item,.navbar-toggler,select,.form-select):focus{
+    outline:none !important; box-shadow:none !important;
+  }
+}
