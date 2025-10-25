@@ -14,7 +14,7 @@
 defined('ABSPATH') || exit;
 
 // Konfiguration: zentrale Vereins-PLZ für h.
-$verein_plz = get_option('verein_plz', '33100');
+$verein_plz = get_option('verein_plz', '33602');
 
 // Auswahlliste Krisengebiete (Beispielwerte)
 $krisengebiete = [
